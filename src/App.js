@@ -130,17 +130,24 @@ function App() {
     <Router>
       {imagesLoaded ? (
         <>
-          <div className="background"></div>
-          <div className="logo"></div>
-          <Global styles={globalStyles} />
-          <Main>
-            <a
+                    <a
               href="http://thewildside.mylocalsalon.com/OnlineBooking/"
               target="_blank"
               rel="noreferrer"
             >
-              <button className="bookBtn">Book Appointment</button>
+              <button className="bookBtn">
+  Book Appointment
+  <span className="particle-1"></span>
+  <span className="particle-2"></span>
+  <span className="particle-3"></span>
+  <span className="particle-4"></span>
+</button>
             </a>
+          <div className="background"></div>
+          <div className="logo"></div>
+          <Global styles={globalStyles} />
+          <Main>
+
             <Routes>
               <Route path="/" element={<Home />} index />
               <Route path="/about" element={<About />} />

@@ -3,6 +3,65 @@ body {
   padding: 0;
 }
 
+@keyframes sparkly {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: -100% 50%;
+  }
+}
+
+@keyframes particle-animation {
+  0% {
+    transform: translateY(0) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%) scale(1);
+    opacity: 0;
+  }
+}
+
+.particle-1,
+.particle-2,
+.particle-3,
+.particle-4 {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: particle-animation 0.6s infinite ease-in-out;
+}
+
+.particle-1 {
+  bottom: 1px;
+  left: 10%;
+  animation-delay: 0.2s;
+}
+
+.particle-2 {
+  bottom: 7px;
+  left: 30%;
+  animation-delay: 0.3s;
+}
+
+.particle-3 {
+  bottom: 2px;
+  left: 50%;
+  animation-delay: 0.4s;
+}
+
+.particle-4 {
+  bottom: 5px;
+  left: 70%;
+  animation-delay: 0.5s;
+}
+
 .background {
   width: 100vw;
   height: 100vh;
@@ -34,13 +93,52 @@ border: 1px solid rgba(255, 255, 255, 0.3);
 color: #fff;
 padding: 7px 14px;
 font-size: 2em;
-position: fixed;
-left: 0;
-right: 0;
+left: 24px;
 bottom: 24px;
 margin: 24px;
+font-family: 'Courier New', Courier, monospace;
+font-weight: 600;
 transition: 0.3s;
+background-image: linear-gradient(
+  100deg,
+  transparent,
+  rgba(255, 255, 255, 0.5),
+  transparent
+);
+background-size: 200% 100%;
+animation: sparkly 2s infinite linear;
+position: fixed; /* change this line from relative to fixed */
+left: 24px;
+bottom: 24px;
+overflow: hidden;
+cursor: pointer;
 }
+
+.bookBtn::before,
+.bookBtn::after {
+  content: "";
+  position: absolute;
+  bottom: 0; /* Emit from the top of the button */
+  left: 0; /* Start from the left side */
+  width: 100%; /* The whole length of the button */
+  height: 50px; /* Adjust the height of the particle effect */
+  background: linear-gradient(to left, #fff, rgba(255, 255, 255, 0)); /* Create a gradient particle effect */
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: particle-animation 0.6s infinite ease-in-out;
+}
+
+.bookBtn::before {
+  transform-origin: top right;
+  animation-delay: 0.1s;
+}
+
+.bookBtn::after {
+  transform-origin: top left;
+  animation-delay: 0.3s;
+}
+
 
 .bookBtn:hover {
   background: rgba(255, 255, 255, 0.3);
@@ -68,5 +166,10 @@ transition: 0.3s;
     top: auto;
     left: 24px;
     bottom: 75px;
+  }
+
+  .bookBtn {
+    left: 0;
+    right: 0;
   }
 }
