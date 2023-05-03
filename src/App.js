@@ -1,11 +1,24 @@
-import React from "react";
+import {useState, useEffect} from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import { css, Global } from "@emotion/react";
+import { css, Global, keyframes } from "@emotion/react";
 import styled from "@emotion/styled";
+import bgDesktop from "./images/wildSide_bg_desktop.png";
+import bgMobile from "./images/wildSide_bg_mobile.png";
+import logo from "./images/wildSide_logo.png";
+
 
 import Home from "./Home";
 import About from "./About";
 import Contact from "./Contact";
+
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
 
 const globalStyles = css`
   * {
@@ -61,29 +74,85 @@ const Main = styled.main`
   padding: 20px;
 `;
 
+const LoadingScreen = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: rgb(123,0,255);
+background: linear-gradient(180deg, rgba(123,0,255,1) 0%, rgba(246,9,241,1) 100%);
+`;
+
+const LoadingWheel = styled.div`
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-left-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: ${spin} 1s linear infinite;
+`;
+
+
 function App() {
+
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  const imagePaths = [
+    bgDesktop,
+    bgMobile,
+    logo,
+  ];
+  
+  
+
+  useEffect(() => {
+    const preloadImages = async () => {
+      const loadAllImages = imagePaths.map((src) =>
+        new Promise((resolve, reject) => {
+          const image = new Image();
+          image.src = src;
+          image.onload = resolve;
+          image.onerror = reject;
+        })
+      );
+      try {
+        await Promise.all(loadAllImages);
+        setImagesLoaded(true);
+      } catch (error) {
+        console.error("Failed to preload images:", error);
+      }
+    };
+    preloadImages();
+  }, []);
+
   return (
     <Router>
-      <div className="background"></div>
-      <div className="logo"></div>
-      <Global styles={globalStyles} />
-      {/*<Header>
-        <Nav>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/about">About</NavLink>
-          <NavLink to="/contact">Contact</NavLink>
-  </Nav>
-      </Header>*/}
-      <Main>
-        <a href='http://thewildside.mylocalsalon.com/OnlineBooking/' target="_blank" rel="noreferrer">
-        <button className="bookBtn">Book Appointment</button>
-        </a>
-        <Routes>
-          <Route path="/" element={<Home />} index />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </Main>
+      {imagesLoaded ? (
+        <>
+          <div className="background"></div>
+          <div className="logo"></div>
+          <Global styles={globalStyles} />
+          <Main>
+            <a
+              href="http://thewildside.mylocalsalon.com/OnlineBooking/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <button className="bookBtn">Book Appointment</button>
+            </a>
+            <Routes>
+              <Route path="/" element={<Home />} index />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
+          </Main>
+        </>
+      ) : (
+        <LoadingScreen>
+        <LoadingWheel />
+      </LoadingScreen>
+      )}
     </Router>
   );
 }
