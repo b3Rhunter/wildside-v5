@@ -55,6 +55,7 @@ transition: 0.3s;
 @media only screen and (max-width: 960px) {
   .background {
     background-image: url(./images/wildSide_bg_mobile.png);
+    
   }
 
   .logo {

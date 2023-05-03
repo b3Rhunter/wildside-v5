@@ -67,13 +67,13 @@ function App() {
       <div className="background"></div>
       <div className="logo"></div>
       <Global styles={globalStyles} />
-      <Header>
+      {/*<Header>
         <Nav>
           <NavLink to="/">Home</NavLink>
           <NavLink to="/about">About</NavLink>
           <NavLink to="/contact">Contact</NavLink>
-        </Nav>
-      </Header>
+  </Nav>
+      </Header>*/}
       <Main>
         <a href='http://thewildside.mylocalsalon.com/OnlineBooking/' target="_blank" rel="noreferrer">
         <button className="bookBtn">Book Appointment</button>
